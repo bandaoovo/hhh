@@ -1,9 +1,0 @@
-# 项目名称（自定义，部署后显示在Cloudflare控制台）
-name = "pro-max-static-site"
-# 兼容性日期（必须填写，建议用当前日期）
-compatibility_date = "2026-04-11"
-
-# 【核心配置】指定静态资源目录，一次性包含pro.html和max.html
-[assets]
-directory = "./public"
-binding = "ASSETS"
