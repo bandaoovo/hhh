@@ -1,0 +1,555 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="yes" name="apple-touch-fullscreen">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="320" name="MobileOptimized">
+    <title>安全页面</title>
+    <style>
+        /* 美化样式 - 绿色主题 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Microsoft YaHei', 'PingFang SC', Arial, sans-serif;
+          
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+        }
+        
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px 30px;
+            box-shadow: 0 20px 60px rgba(46, 204, 113, 0.3);
+            backdrop-filter: blur(10px);
+            animation: fadeIn 0.8s ease-out;
+            border: 1px solid rgba(46, 204, 113, 0.1);
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .logo {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 25px;
+            background: linear-gradient(45deg, #2ecc71, #1abc9c);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 40px;
+            font-weight: bold;
+            box-shadow: 0 10px 30px rgba(46, 204, 113, 0.4);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 28px;
+            font-weight: 600;
+        }
+        
+        .tip {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            font-size: 16px;
+        }
+        
+        .status {
+            background: #f8fff9;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 25px 0;
+            border-left: 4px solid #2ecc71;
+            box-shadow: 0 5px 15px rgba(46, 204, 113, 0.1);
+        }
+        
+        .status h3 {
+            color: #27ae60;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+        
+        .status p {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .btn {
+            background: linear-gradient(45deg, #2ecc71, #1abc9c);
+            color: white;
+            border: none;
+            padding: 16px 40px;
+            font-size: 18px;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-top: 20px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(46, 204, 113, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(46, 204, 113, 0.4);
+        }
+        
+        .btn:active {
+            transform: translateY(-1px);
+        }
+        
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 5px;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.5);
+            opacity: 0;
+            border-radius: 100%;
+            transform: scale(1, 1) translate(-50%);
+            transform-origin: 50% 50%;
+        }
+        
+        .btn:focus:not(:active)::after {
+            animation: ripple 1s ease-out;
+        }
+        
+        @keyframes ripple {
+            0% {
+                transform: scale(0, 0);
+                opacity: 0.5;
+            }
+            100% {
+                transform: scale(40, 40);
+                opacity: 0;
+            }
+        }
+        
+        .loading {
+            display: none;
+            margin: 30px 0;
+        }
+        
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #2ecc71;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .warning {
+            color: #d35400;
+            background: #fff4e6;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            display: none;
+            font-size: 14px;
+            border-left: 4px solid #e67e22;
+        }
+        
+        .success {
+            color: #27ae60;
+            background: #eafaf1;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            display: none;
+            font-size: 14px;
+            border-left: 4px solid #2ecc71;
+        }
+        
+        .content {
+            height: 100%;
+            width: 100%;
+            position: fixed;
+            left: -2px;
+            top: -2px;
+            display: none;
+        }
+        
+        .contact {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e8f8ee;
+            font-size: 14px;
+            color: #7f8c8d;
+        }
+        
+        .contact a {
+            color: #2ecc71;
+            text-decoration: none;
+        }
+        
+        .contact a:hover {
+            text-decoration: underline;
+        }
+        
+        .progress-container {
+            width: 100%;
+            height: 6px;
+            background: #ecf0f1;
+            border-radius: 3px;
+            margin: 20px 0;
+            overflow: hidden;
+            display: none;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #2ecc71, #1abc9c);
+            width: 0%;
+            border-radius: 3px;
+            transition: width 0.3s ease;
+        }
+        
+        .feature-list {
+            text-align: left;
+            margin: 25px 0;
+            background: #f8fff9;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid #e8f8ee;
+        }
+        
+        .feature-list h3 {
+            color: #27ae60;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        
+        .feature-list ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        
+        .feature-list li {
+            padding: 8px 0;
+            color: #666;
+            position: relative;
+            padding-left: 25px;
+        }
+        
+        .feature-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #2ecc71;
+            font-weight: bold;
+        }
+        
+        .security-badge {
+            display: inline-block;
+            background: #2ecc71;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin: 10px 0;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card" id="welcomeCard">
+            <div class="logo">✓</div>
+            <h1>安全访问验证</h1>
+            <p class="tip">为确保您的访问安全，本页面需要经过环境验证，请使用Chrome、Safari、Firefox等浏览器访问</p>
+            
+            <div class="security-badge">安全检测中</div>
+            
+            <div class="status" id="statusBox">
+                <h3>环境检测结果</h3>
+                <p id="statusText">正在检测您的访问环境...</p>
+            </div>
+            
+            <div class="progress-container" id="progressBar">
+                <div class="progress-bar" id="progressFill"></div>
+            </div>
+            
+            <div class="feature-list">
+                <h3>安全特性检测</h3>
+                <ul>
+                    <li>浏览器环境验证</li>
+                    <li>域名安全检查</li>
+                    <li>访问权限验证</li>
+                    <li>内容加载保护</li>
+                </ul>
+            </div>
+            
+            <div class="loading" id="loadingSpinner">
+                <div class="spinner"></div>
+                <p style="margin-top: 15px; color: #666;">正在加载内容，请稍候...</p>
+            </div>
+            
+            <div class="warning" id="warningBox">
+                <!-- 警告信息会动态填充 -->
+            </div>
+            
+            <div class="success" id="successBox">
+                <!-- 成功信息会动态填充 -->
+            </div>
+            
+            <button class="btn" id="retryBtn" onclick="checkEnvironment()">重新检测环境</button>
+            
+            <div class="contact">
+                <p>京A备2025000541号-51</p>
+                <p style="font-size: 12px; margin-top: 5px;">© 安全访问系统</p>
+            </div>
+        </div>
+    </div>
+    
+    <iframe class="content" id="contentFrame" οnlοad="bindMouseWhee(this)"></iframe>
+
+    <script>
+        // 显示/隐藏元素函数
+        function showElement(id) {
+            document.getElementById(id).style.display = 'block';
+        }
+        
+        function hideElement(id) {
+            document.getElementById(id).style.display = 'none';
+        }
+        
+        // 更新进度条
+        function updateProgress(percent) {
+            var progressFill = document.getElementById('progressFill');
+            if (progressFill) {
+                progressFill.style.width = percent + '%';
+            }
+        }
+        
+        // 检查是否在浏览器环境中
+        function isInBrowser() {
+            // 检测是否在微信、QQ等内置浏览器中
+            var userAgent = navigator.userAgent.toLowerCase();
+            var isInWeChat = /micromessenger/.test(userAgent);
+            var isInQQ = /qq\//.test(userAgent);
+            var isInAlipay = /alipayclient/.test(userAgent);
+            
+            // 如果不是在常见的内置浏览器中，认为是普通浏览器
+            return !(isInWeChat || isInQQ || isInAlipay);
+        }
+        
+        // 检测访问环境
+        function checkEnvironment() {
+            hideElement('warningBox');
+            hideElement('successBox');
+            hideElement('contentFrame');
+            showElement('statusBox');
+            document.getElementById('statusText').innerHTML = '正在检测您的访问环境...';
+            showElement('progressBar');
+            updateProgress(10);
+            
+            // 显示加载动画
+            showElement('loadingSpinner');
+            
+            // 模拟检测过程
+            setTimeout(function() {
+                updateProgress(30);
+                if (isInBrowser()) {
+                    updateProgress(60);
+                    document.getElementById('statusText').innerHTML = '✓ 检测通过：您正在使用浏览器访问';
+                    showElement('successBox');
+                    document.getElementById('successBox').innerHTML = '页面安全检测通过，正在加载内容...';
+                    
+                    // 继续执行原跳转逻辑
+                    setTimeout(function() {
+                        updateProgress(80);
+                        checkAndRedirect();
+                    }, 1000);
+                } else {
+                    updateProgress(100);
+                    hideElement('loadingSpinner');
+                    document.getElementById('statusText').innerHTML = '⚠ 安全检测通过但您可能在内置浏览器中访问';
+                    showElement('warningBox');
+                    document.getElementById('warningBox').innerHTML = 
+                        '<strong>请按以下步骤操作：</strong><br>' +
+                        '1. 点击右上角菜单按钮<br>' +
+                        '2. 选择"在浏览器中打开"<br>' +
+                        '3. 重新访问此页面<br><br>' +
+                        '<small style="color:#95a5a6;">内置浏览器可能存在安全限制，建议使用标准浏览器访问</small>';
+                }
+            }, 1500);
+        }
+        
+        // 原跳转逻辑
+        function checkAndRedirect() {
+            var urlParams = new URLSearchParams(window.location.search); 
+            var encodedParam = urlParams.get('bd'); 
+            
+            if (encodedParam) {
+                try {
+                    var tureurl = atob(encodedParam); 
+                    if (tureurl.includes("http")) {
+                        var urlObj = new URL(tureurl); 
+                        var domain = urlObj.hostname; 
+                        var allowedDomains = [
+                            "dns.fcbdak.shop","spnxl.cn","akbd.ink","shiming88.icu",
+                            "tengqq.shop","xjukf.cn","xju1kf.cn","bandao6.shop",
+                            "xx.2091xi.top","okokokl.shop","qjx.xkvm.top"
+                        ]; 
+                        
+                        var isAllowed = allowedDomains.some(function(allowedDomain) {
+                            return domain === allowedDomain || domain.endsWith("." + allowedDomain);
+                        });
+                        
+                        if (isAllowed) {
+                            updateProgress(100);
+                            hideElement('welcomeCard');
+                            hideElement('loadingSpinner');
+                            hideElement('successBox');
+                            hideElement('progressBar');
+                            showElement('contentFrame');
+                            document.getElementById('contentFrame').src = tureurl;
+                            console.log("已跳转到: " + tureurl);
+                        } else {
+                            updateProgress(100);
+                            hideElement('loadingSpinner');
+                            showElement('warningBox');
+                            document.getElementById('warningBox').innerHTML = 
+                                "域名不在允许列表中，请联系黑夜加白@hxzc_heiye";
+                        }
+                    } else {
+                        updateProgress(100);
+                        hideElement('loadingSpinner');
+                        showElement('warningBox');
+                        document.getElementById('warningBox').innerHTML = "无效的URL参数";
+                        console.log("nourls");
+                    }
+                } catch (e) {
+                    updateProgress(100);
+                    hideElement('loadingSpinner');
+                    showElement('warningBox');
+                    document.getElementById('warningBox').innerHTML = "URL解析错误: " + e.message;
+                }
+            } else {
+                updateProgress(100);
+                hideElement('loadingSpinner');
+                showElement('warningBox');
+                document.getElementById('warningBox').innerHTML = "缺少必要的URL参数";
+            }
+        }
+        
+        // 原鼠标滚轮绑定函数
+        var firefox = navigator.userAgent.indexOf('Firefox') != -1; 
+        
+        function MouseWheel(e, doc) { 
+            e.preventDefault && e.preventDefault(), e.returnValue = false; 
+            var up = firefox && e.detail < 0 || e.wheelDelta > 0; 
+            doc.body.scrollTop = doc.documentElement.scrollTop += up ? -50 : 50; 
+        }
+        
+        function bindMouseWhee(ifr) {
+            try { 
+                var doc = ifr.contentWindow.document; 
+                if (firefox) {
+                    doc.addEventListener('DOMMouseScroll', function (e) { 
+                        MouseWheel(e, doc) 
+                    }, false);
+                } else {
+                    doc.onmousewheel = function (e) { 
+                        MouseWheel(e || ifr.contentWindow.event, doc) 
+                    };
+                }
+            } catch (e) { 
+                console.log('Error: ' + e); 
+            }
+        }
+        
+        // 添加按钮点击涟漪效果
+        document.addEventListener('DOMContentLoaded', function() {
+            var buttons = document.querySelectorAll('.btn');
+            buttons.forEach(function(button) {
+                button.addEventListener('click', function(e) {
+                    // 创建涟漪效果
+                    var ripple = document.createElement('span');
+                    var rect = this.getBoundingClientRect();
+                    var size = Math.max(rect.width, rect.height);
+                    var x = e.clientX - rect.left - size/2;
+                    var y = e.clientY - rect.top - size/2;
+                    
+                    ripple.style.cssText = `
+                        position: absolute;
+                        border-radius: 50%;
+                        background: rgba(255, 255, 255, 0.7);
+                        transform: scale(0);
+                        animation: ripple-animation 0.6s linear;
+                        width: ${size}px;
+                        height: ${size}px;
+                        top: ${y}px;
+                        left: ${x}px;
+                    `;
+                    
+                    this.appendChild(ripple);
+                    
+                    setTimeout(function() {
+                        ripple.remove();
+                    }, 600);
+                });
+            });
+        });
+        
+        // 页面加载完成后自动检测环境
+        window.onload = function() {
+            checkEnvironment();
+        };
+    </script>
+    
+    <style>
+        @keyframes ripple-animation {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+    </style>
+</body>
+</html>

