@@ -1,0 +1,9 @@
+# 【必填】Worker 项目名称（自定义，解决名称undefined警告）
+name = "pro-max-static-site"
+# 【必填】兼容性日期（解决核心报错，建议用当前日期）
+compatibility_date = "2026-04-11"
+
+# 【核心】指定静态资源目录，包含pro.html和max.html
+[assets]
+directory = "./fh"
+binding = "ASSETS"
